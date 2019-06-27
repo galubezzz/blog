@@ -78,3 +78,14 @@ class CommentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 class CommentListView(ListView):
     template_name = 'comment_list.html'
     model = Comment
+
+class CommentDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    template_name = 'comment_delete.html'
+    model = Comment
+    success_url = reverse_lazy('webapp:article_list')
+
+    def get_permission_required(self):
+        return None
+
+    def has_permission(self):
+        return self.request.user == self.get_object().author

@@ -4,6 +4,7 @@
     <label for="{{form.text.id_for_label}}">{{ form.text.label }}</label>
     <textarea class="form-control" id="{{form.text.id_for_label}}" rows="3" name="text">
         {% for error in form.text.errors %}<p class="text-danger mt-1">{{ error }}</p>{% endfor %}
+        {{ comment.text }}
     </textarea>
   </div>
 <div class="row">
