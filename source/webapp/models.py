@@ -25,7 +25,7 @@ class Comment(models.Model):
     text = models.TextField(max_length=1000, null=True, blank=True, verbose_name="Текст комментария")
     author = models.ForeignKey(User, blank=True, verbose_name="Автор", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True, verbose_name="Дата и время создания")
-    article = models.ForeignKey(Article, blank=True, verbose_name="Статья", on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, related_name="comments", blank=True, verbose_name="Статья", on_delete=models.CASCADE)
 
     def get_absolute_url(self):
         return reverse('webapp:article_detail', kwargs={'pk': self.article.id})

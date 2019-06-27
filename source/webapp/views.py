@@ -43,8 +43,25 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
 
     def form_valid(self, form):
-        article = get_object_or_404(Article, pk=self.request.article_id)
+        print(form)
+        article = get_object_or_404(Article, pk=self.kwargs['pk'])
         form.instance.article = article
         form.instance.author = self.request.user
-        return super(CommentCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
+
+class CommentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    template_name = 'comment_update.html'
+    form_class = CommentForm
+    model = Comment
+
+    def get_permission_required(self):
+        return None
+
+    def has_permission(self):
+        return self.request.user == self.get_object().author
+
+
+class CommentListView(ListView):
+    template_name = 'comment_list.html'
+    model = Comment

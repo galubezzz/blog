@@ -1,0 +1,13 @@
+{% block content %}
+    {% for comment in comment_list %}
+        <div class="card mt-3">
+
+            {{ comment.text }}
+            <div class="card-footer">
+                <p class="card-text">{{ comment.author }} | {{ comment.created_at }} {% if user == comment.author %}
+                    <a class="float-right" href="{% url 'webapp:comment_update'  article.pk %}">Редактировать</a>
+                {% endif %}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
