@@ -1,8 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from webapp.forms import ArticleForm, CommentForm
 from webapp.models import Article, Comment
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 
 
 class ArticleListView(ListView):
@@ -29,6 +30,18 @@ class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     template_name = 'article_update.html'
     form_class = ArticleForm
     model = Article
+
+    def get_permission_required(self):
+        return None
+
+    def has_permission(self):
+        return self.request.user == self.get_object().author
+
+
+class ArticleDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    template_name = 'article_delete.html'
+    model = Article
+    success_url = reverse_lazy('webapp:article_list')
 
     def get_permission_required(self):
         return None
