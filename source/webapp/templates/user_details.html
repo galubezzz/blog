@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Пользователь {% endblock %}
+{% block content %}
+    <div>
+        <h5 class="card-title">{{ user }}</h5>
+            <p>Имя: {{ user.first_name }}</p>
+            <p>Фамилия: {{ user.last_name }}</p>
+            <p>Почта: {{ user.email }}</p>
+
+            {% if userinfo.user == request.user %}
+                <li class="list-group-item"><a href="{% url 'webapp:user_update' request.user.pk %}" class="nav-link">Редактировать</a></li>
+            {% endif %}
+    </div>
+{% endblock %}

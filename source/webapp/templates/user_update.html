@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Изменить пользователя{% endblock %}
+
+{% block content %}
+    <h1>Изменить пользователя</h1>
+    <form action="{% url 'webapp:user_update' form.instance.pk %}" method="post" class="form-group" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+              <input type="text" class="form-control" placeholder="First name" name="first_name" >
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Last name" name="last_name" value="{{ user.last_name }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" value={{ user.email }}>
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+{% endblock %}

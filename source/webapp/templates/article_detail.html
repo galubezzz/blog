@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1 class="mt-2">{{ article.title }}</h1>
-    <p>{{ article.author }} | {{ article.created_at }}
+    <a href="{% url 'webapp:user_details' article.author_id %}"> {{ article.author }} </a> | {{ article.created_at }}
         {% if user == article.author %}
             <a class="float-right" href="{% url 'webapp:article_update' article.pk %}">Редактировать</a>
             <a class="float-right" href="{% url 'webapp:article_delete' article.pk %}">Удалить</a>

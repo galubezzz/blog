@@ -3,6 +3,16 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
+class UserInfo(models.Model):
+    user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='UserInfo', verbose_name="Пользователь")
+    name = models.CharField(max_length=50, verbose_name="Имя")
+    surname = models.CharField(max_length=50, verbose_name="Фамилия")
+    email = models.EmailField(max_length=50, verbose_name="Почта")
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+
 class Article(models.Model):
     title = models.CharField(max_length=200, verbose_name="Заголовок")
     text = models.TextField(max_length=5000, null=True, blank=True, verbose_name="Текст статьи")

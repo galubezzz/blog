@@ -1,5 +1,6 @@
 from django import forms
 from .models import Article, Comment
+from django.contrib.auth.models import User
 
 
 class ArticleForm(forms.ModelForm):
@@ -17,3 +18,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['text']
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
