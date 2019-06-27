@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Статья{% endblock %}
+
+{% block content %}
+    <p>{{ comment.author }} | {{ comment.created_at }}
+        {% if user == comment.author %}
+            <a class="float-right" href="{% url 'webapp:article_update' article.pk %}">Редактировать</a>
+        {% endif %}
+    </p>
+    <p class="mt-3 pre-spaces">{{ comment.text }}</p>
+{% endblock %}

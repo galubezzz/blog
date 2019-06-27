@@ -1,0 +1,16 @@
+{% block content %}
+<h1 class="mt-3">Добавить комментарий</h1>
+<form method="post" enctype="multipart/form-data" action="{% url 'webapp:comment_create' article.id %}">
+        {% csrf_token %}
+<div class="form-group">
+    <label for="{{form.text.id_for_label}}">{{ form.text.label }}</label>
+    <textarea class="form-control" id="{{form.text.id_for_label}}" rows="3">
+        {{ form.text}}
+        {% for error in form.text.errors %}<p class="text-danger mt-1">{{ error }}</p>{% endfor %}
+    </textarea>
+  </div>
+<div class="row">
+    <div class="col-10 offset-2"><button type="submit" class="btn btn-primary">Отправить</button></div>
+</div>
+</form>
+{% endblock %}
