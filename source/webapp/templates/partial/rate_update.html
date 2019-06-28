@@ -1,0 +1,20 @@
+{% block content %}
+    <button type="button" class="btn btn-primary btn-sm" id="plus" value="1">+1</button>
+    <button type="button" class="btn btn-primary btn-sm" id="minus" value="-1">-1</button>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script>
+        $.ajax({
+            url: '',
+            method: 'POST',
+            success: function (response, status) {
+                console.log(response);
+                console.log(status);
+            },
+            error: function (response, status) {
+                console.log(status);
+
+            });
+    </script>
+{% endblock %}

@@ -46,3 +46,14 @@ class Comment(models.Model):
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
+
+
+class Rate(models.Model):
+    rate = models.IntegerField(max_length=2, null=True, blank=True, verbose_name="Оценка")
+    user = models.ForeignKey(User, blank=True, related_name="rates", verbose_name="Пользователь", on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, related_name="rates", blank=True, verbose_name="Статья", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Оценка"
+        verbose_name_plural = "Оценки"
+        unique_together = ('user', 'article')

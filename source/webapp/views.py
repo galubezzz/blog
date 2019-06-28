@@ -1,11 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from webapp.forms import ArticleForm, CommentForm, UserForm
-from webapp.models import Article, Comment
+from webapp.models import Article, Comment, Rate
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.db.models import Sum
+import json
 
 class ArticleListView(ListView):
     template_name = 'article_list.html'
@@ -18,7 +21,8 @@ class ArticleDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
-        context['comments'] = self.object.comments.all().order_by('-date')
+        context['comments'] = self.object.comments.all().order_by('-created_at')
+        context['total_rate'] = self.object.rates.aggregate(Sum("rate"))['rate__sum']
         return context
 
 
@@ -62,7 +66,6 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
 
     def form_valid(self, form):
-        print(form)
         article = get_object_or_404(Article, pk=self.kwargs['pk'])
         form.instance.article = article
         form.instance.author = self.request.user
@@ -102,11 +105,11 @@ class UserDetailView(DetailView):
     template_name = 'user_details.html'
     model = User
 
-class UserUpdateView(UpdateView):
+
+class UserUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = User
     template_name = 'user_update.html'
     form_class = UserForm
-
 
     def get_success_url(self):
         return reverse('webapp:user_details', kwargs={'pk': self.object.pk})
@@ -122,3 +125,21 @@ class UserUpdateView(UpdateView):
 
     def has_permission(self):
         return self.request.user == self.get_object().author
+
+
+class ArticleRateView(UpdateView, LoginRequiredMixin):
+
+    def get(self, request, pk):
+        return HttpResponseRedirect(reverse('webapp:article_detail', kwargs={'pk': pk}))
+
+    def post(self, request, pk):
+        article = get_object_or_404(Article, pk=pk)
+        rate, _ = Rate.objects.update_or_create(article=article, user=self.request.user)
+        if request.POST.get('value') == "+1":
+            rate.rate = 1
+        else:
+            rate.rate = -1
+
+        rate.save()
+        data = {'total': article.rates.aggregate(Sum("rate"))['rate__sum']}
+        return HttpResponse(content=json.dumps(data), content_type="application/json", status=201)

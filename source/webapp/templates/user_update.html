@@ -8,7 +8,7 @@
         {% csrf_token %}
         <div class="row">
             <div class="col">
-              <input type="text" class="form-control" placeholder="First name" name="first_name" >
+              <input type="text" class="form-control" placeholder="First name" name="first_name" value="{{ user.first_name }}>
             </div>
             <div class="col">
               <input type="text" class="form-control" placeholder="Last name" name="last_name" value="{{ user.last_name }}">
