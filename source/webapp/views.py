@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.db.models import Sum
 import json
 
+
 class ArticleListView(ListView):
     template_name = 'article_list.html'
     model = Article
