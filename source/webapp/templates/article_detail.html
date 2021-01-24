@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Статья{% endblock %}
+{% block title %}Post{% endblock %}
 
 {% block content %}
     <h1 class="mt-2">{{ article.title }}</h1>
     <a href="{% url 'webapp:user_details' article.author_id %}"> {{ article.author }} </a> | {{ article.created_at }}
         {% if user == article.author %}
-            <a class="float-right" href="{% url 'webapp:article_update' article.pk %}">Редактировать</a>
-            <a class="float-right" href="{% url 'webapp:article_delete' article.pk %}">Удалить</a>
+            <a class="float-right" href="{% url 'webapp:article_update' article.pk %}">Edit</a>
+            <a class="float-right" href="{% url 'webapp:article_delete' article.pk %}">Delete</a>
         {% endif %}
     </p>
     {% if article.image %}

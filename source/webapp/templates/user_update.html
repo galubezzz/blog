@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}Изменить пользователя{% endblock %}
+{% block title %}My account{% endblock %}
 
 {% block content %}
-    <h1>Изменить пользователя</h1>
+    <h1>Edit user information</h1>
     <form action="{% url 'webapp:user_update' form.instance.pk %}" method="post" class="form-group" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
@@ -19,6 +19,6 @@
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" value={{ user.email }}>
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 {% endblock %}

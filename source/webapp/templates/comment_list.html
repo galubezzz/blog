@@ -5,8 +5,8 @@
             {{ comment.text }}
             <div class="card-footer">
                 <p class="card-text">{{ comment.author }} | {{ comment.created_at }} {% if user == comment.author %}
-                    <a class="float-right" href="{% url 'webapp:comment_update'  comment.pk %}">Редактировать</a>
-                    <a href="{% url 'webapp:comment_delete'  comment.pk %}">Удалить</a>
+                    <a class="float-right" href="{% url 'webapp:comment_update'  comment.pk %}">Edit</a>
+                    <a href="{% url 'webapp:comment_delete'  comment.pk %}">Delete</a>
                 {% endif %}</p>
             </div>
         </div>
